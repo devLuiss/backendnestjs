@@ -1,0 +1,64 @@
+@baseUrl = http://localhost:3333
+# @authToken = {{authenticate.response.body.access_token}}
+
+# @name helloWorld
+GET {{baseUrl}}/
+Content-Type: application/json
+
+{
+  "name": "Luis"
+}
+
+###
+
+# @name register
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "email": "luis@gmail.com",
+  "name": "luis",
+  "password": "admin"
+}
+
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "email": "luis@gmail.com",
+  "password": "admin"
+}
+
+###
+
+# # @name createEmployees
+# POST {{baseUrl}}/employees
+# Content-Type: application/json
+# # Authorization: Bearer {{authToken}}
+
+# {
+#     "entity_id": "FUNC12223",
+#     "corporate_email": "2.teste@empresa.com",
+#     "cnpj": "12345178901234",
+#     "contract_type": "full-time",
+#     "start_date": "2024-01-24",
+#     "is_active": true,
+#     "teams": ["72b8c6a3-d771-4561-8e07-bcec4cc3e528"],
+#     "company_id": "41a83166-f253-429a-bc4e-1e296298014c"
+# }
+
+# ###
+
+# # @name createTeam
+# POST {{baseUrl}}/teams
+# Content-Type: application/json
+# # Authorization: Bearer {{authToken}}
+
+# {
+#   "name": "W1FM",
+#   "company_id": "41a83166-f253-429a-bc4e-1e296298014c"
+# }
