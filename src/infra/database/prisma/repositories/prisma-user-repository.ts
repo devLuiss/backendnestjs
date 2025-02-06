@@ -22,7 +22,15 @@ export class PrismaUsersRepository implements UsersRepository {
     return UserMapper.toDomain(user);
   }
   async create(user: User): Promise<User | null> {
-    throw new Error("Method not implemented.");
+    const createdUser = await this.prisma.user.create({
+      data: {
+        email: user.email,
+        name: user.name,
+        password: user.password,
+      },
+    });
+
+    return UserMapper.toDomain(createdUser);
   }
 
   async delete(user: User): Promise<void> {

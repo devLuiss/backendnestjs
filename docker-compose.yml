@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: nest-clean-pg
+    image: postgres
+    ports:
+      - 5431:5432 # COPILOT: Corrigindo a porta mapeada para 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: nest-clean
+      PGDATA: /var/lib/postgresql/data # COPILOT: Corrigindo o caminho do volume
+    volumes:
+      - ./data/pg:/var/lib/postgresql/data # COPILOT: Corrigindo o caminho do volume
