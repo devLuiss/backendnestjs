@@ -34,18 +34,41 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async delete(user: User): Promise<void> {
-    throw new Error("Method not implemented.");
+    await this.prisma.user.delete({
+      where: { id: user.id.toString() },
+    })
   }
 
-  save(user: User): Promise<User | null> {
-    throw new Error("Method not implemented.");
+  async save(user: User): Promise<User | null> {
+    const updated = await this.prisma.user.update({
+      where: { id: user.id.toString() },
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        updatedAt: new Date(),
+      },
+    })
+
+    return UserMapper.toDomain(updated)
   }
 
-  findById(id: string): Promise<User | null> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<User | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    })
+
+    if (!user) return null
+
+    return UserMapper.toDomain(user)
   }
 
-  findMany(params: PaginationParams, companyId: string): Promise<User[]> {
-    throw new Error("Method not implemented.");
+  async findMany(params: PaginationParams, companyId: string): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      skip: (params.page - 1) * 20,
+      take: 20,
+    })
+
+    return users.map(UserMapper.toDomain)
   }
 }

@@ -2,6 +2,7 @@ import { UserAlreadyExistsError } from "@/domain/projectname/application/useCase
 import { RegisterUserUseCase } from "@/domain/projectname/application/useCases/register-user";
 import { Public } from "@/infra/auth/public";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
+import { UserPresenter } from "@/infra/http/presenters/user-presenter";
 import {
   BadRequestException,
   Body,
@@ -48,5 +49,7 @@ export class CreateUserController {
           throw new BadRequestException(error.message);
       }
     }
+
+    return { user: UserPresenter.toHTTP(result.value.user) }
   }
 }
