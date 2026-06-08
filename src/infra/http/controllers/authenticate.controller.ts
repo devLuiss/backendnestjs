@@ -1,7 +1,7 @@
 import { AuthenticateUserUseCase } from "@/domain/projectname/application/useCases/authenticate-user";
 import { Public } from "@/infra/auth/public";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
-import { Body, Controller, Post, UsePipes } from "@nestjs/common";
+import { Body, Controller, Post, UnauthorizedException, UsePipes } from "@nestjs/common";
 import { z } from "zod";
 
 const authenticateBodySchema = z.object({
@@ -26,7 +26,7 @@ export class AuthenticateController {
     });
 
     if (result.isLeft()) {
-      throw new Error();
+      throw new UnauthorizedException(result.value.message);
     }
 
     const { accessToken } = result.value;
