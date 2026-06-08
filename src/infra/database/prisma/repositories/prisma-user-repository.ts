@@ -64,7 +64,11 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async findMany(params: PaginationParams, companyId: string): Promise<User[]> {
+    // TODO: adicionar companyId no Prisma schema User model pra ativar este filtro.
+    // Sem o filtro, findMany retorna usuarios de todos os tenants - vazamento
+    // de dados em sistema multi-tenant. Foi assim que o bug apareceu no muncly.
     const users = await this.prisma.user.findMany({
+      // where: { companyId },  // habilitar quando schema tiver o campo
       skip: (params.page - 1) * 20,
       take: 20,
     })
